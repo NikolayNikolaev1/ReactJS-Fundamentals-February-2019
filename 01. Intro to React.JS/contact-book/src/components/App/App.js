@@ -6,11 +6,6 @@ const Contact = () => (<div class="contact" data-id="id">
   <span class="title">Ivan Ivanov</span>
 </div>);
 
-// ReactDom.render(
-//   <Contact/>,
-//   document.getElementById('root')
-// );
-
 class App extends Component {
   render() {
     return (
@@ -32,7 +27,24 @@ class App extends Component {
               </div>
             </div>
           </div>
-          
+          <div id="details">
+            <h1>Details</h1>
+            <div class="content">
+              <div class="info">
+                <div class="col">
+                  <span class="avatar">&#9787;</span>
+                </div>
+                <div class="col">
+                  <span class="name">Ivan</span>
+                  <span class="name">Ivanov</span>
+                </div>
+              </div>
+              <div class="info">
+                <span class="info-line">&phone; 0887 123 456</span>
+                <span class="info-line">&#9993; i.ivanov@gmail.com</span>
+              </div>
+            </div>
+          </div>
         </div>
         <footer>Contact Book SPA &copy; 2017</footer>
       </div>

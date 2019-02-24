@@ -11,7 +11,7 @@ class DynamicForm extends React.Component {
                 <div>
                     {
                         /*TODO: render a form depending on wheather the loginForm property is true*/
-                        (<RegisterForm />)
+                        (<RegisterForm registerUser={this.props.registerUser} />)
                     }
                 </div>
             </div>

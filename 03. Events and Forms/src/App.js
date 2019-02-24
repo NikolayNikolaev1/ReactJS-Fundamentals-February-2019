@@ -19,6 +19,27 @@ class App extends Component {
 
     registerUser(user) {
         // TODO: register a user and login
+        fetch('http://localhost:9999/auth/signup', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        .then(response => response.json())
+        .then(body => {
+            if (body.errors) {
+                body.errors.forEach(error => {
+                    console.log(error);
+                });
+            } else {
+                localStorage.setItem('username', body.username);
+                localStorage.setItem('userId', body.userId);
+                this.setState({
+                    user: body.username
+                });
+            }
+        });
     }
 
     loginUser(user) {
@@ -33,7 +54,12 @@ class App extends Component {
 
     componentWillMount() {
         // TODO: check if there is a logged in user using the sessionStorage (if so, update the state, otherwise set the user to null)
-
+        const localUsername = localStorage.getItem('username');
+        if (localUsername) {
+            this.setState({
+                user:localUsername
+            })
+        }
        // TODO: fetch all the games
     }
 

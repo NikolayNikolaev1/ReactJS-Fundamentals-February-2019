@@ -2,6 +2,21 @@ import React from 'react';
 import './login.css';
 
 class LogInForm extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            username: null,
+            password: null
+        }
+
+        this.handleChange = this.handleChange.bind(this);
+    }
+
+    handleChange(event) {
+        this.setState({
+            [event.target.name]: event.target.value
+        });
+    }
 
     render() {
         return (
@@ -9,11 +24,13 @@ class LogInForm extends React.Component {
                 <h1>Login</h1>
                 <form onSubmit={(event) => {
                    // TODO: prevent the default behavior of the event and use the loginUser function by passing it the data from the form
+                   event.preventDefault();
+                   this.props.loginUser(this.state);
                 }}>
                     <label>Usersname</label>
-                    <input type="text" id="usernameLogin"/>
+                    <input type="text" onChange={this.handleChange} name="username" id="usernameLogin"/>
                     <label>Password</label>
-                    <input type="password" id="passwordLogin"/>
+                    <input type="password" onChange={this.handleChange} name="password" id="passwordLogin"/>
                     <input type="submit" value="Login"/>
                 </form>
             </div>

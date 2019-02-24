@@ -44,12 +44,38 @@ class App extends Component {
 
     loginUser(user) {
         // TODO: login a user and set sessionStorage items username and token
+        fetch('http://localhost:9999/auth/signin', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(user)
+        })
+        .then(response => response.json())
+        .then(body => {
+            if (body.errors) {
+                body.errors.forEach(error => {
+                    console.log(error);
+                });
+            } else {
+                localStorage.setItem('username', body.username);
+                localStorage.setItem('userId', body.userId);
+                this.setState({
+                    user: body.username
+                });
+            }
+        });
     }
 
     logout(event) {
        // TODO: prevent the default state
        // TODO: delete the data from the sessionStorage
        // TODO: update the state (user: null)
+       localStorage.removeItem('username');
+       localStorage.removeItem('userId');
+       this.setState({
+           user: null
+       });
     }
 
     componentWillMount() {
@@ -57,8 +83,8 @@ class App extends Component {
         const localUsername = localStorage.getItem('username');
         if (localUsername) {
             this.setState({
-                user:localUsername
-            })
+                user: localUsername
+            });
         }
        // TODO: fetch all the games
     }
@@ -69,6 +95,9 @@ class App extends Component {
 
     switchForm() {
         // TODO: switch the value of the loginForm property
+        this.setState({
+            loginForm: !this.state.loginForm
+        });
     }
 
     render() {

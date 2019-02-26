@@ -1,5 +1,15 @@
 import React from 'react';
 
+const innerState = {
+    title: null,
+    description: null,
+    imageUrl: null
+};
+
+const handleChange = (event) => {
+    innerState[event.target.name] = event.target.value;
+}
+
 const CreateForm = (props) => {
 
     return (
@@ -7,13 +17,15 @@ const CreateForm = (props) => {
             <h1>Create game</h1>
             <form onSubmit={(event) => {
                 // TODO: prevent the default behaviour of the click event, call the createGame function and pass it the data from the form
+                event.preventDefault();
+                props.createGame(innerState);
             }}>
                 <label>Title</label>
-                <input type="text" id="title"/>
+                <input type="text" name="title" onChange={handleChange} id="title"/>
                 <label>Description</label>
-                <textarea type="text" id="description"/>
+                <textarea type="text" name="description" onChange={handleChange} id="description"/>
                 <label>ImageUrl</label>
-                <input type="text" id="imageUrl"/>
+                <input type="text" name="imageUrl" onChange={handleChange} id="imageUrl"/>
                 <input type="submit" value="Create"/>
             </form>
         </div>

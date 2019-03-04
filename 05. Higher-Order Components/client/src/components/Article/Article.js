@@ -5,6 +5,7 @@ class Article extends Component {
   render() {
     return (
       <article>
+        {this.undefinedProperty}
         <header>
           <span className="title">Article Title</span>
         </header>

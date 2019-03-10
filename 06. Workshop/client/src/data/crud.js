@@ -6,7 +6,7 @@ function request(method) {
         "Content-Type": "application/json",
         Accept: "application/json"
       },
-      body: JSON.stringify(data),
+      body: Object.keys(data).length ? JSON.stringify(data) : undefined,
       ...options
     });
 

@@ -9,7 +9,7 @@ class Login extends React.Component {
     email: "",
     password: "",
     error: "",
-    isLoggedIn: false
+    isLoggedIn: window.localStorage.getItem('auth_token').length
   };
 
   handleChange = ({ target }) => {
@@ -42,7 +42,10 @@ class Login extends React.Component {
             throw new Error(errors);
           }
 
+          window.localStorage.auth_token = result.token;
+          
           console.log(result);
+          
 
           this.setState({
             isLoggedIn: true

@@ -1,6 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import AuthenticationService from "../services/authentication-service";
+import { UserConsumer } from "../components/contexts/user-context";
 
 class Login extends React.Component {
   static service = new AuthenticationService();
@@ -8,8 +9,7 @@ class Login extends React.Component {
   state = {
     email: "",
     password: "",
-    error: "",
-    isLoggedIn: window.localStorage.getItem('auth_token').length
+    error: ""
   };
 
   handleChange = ({ target }) => {
@@ -22,6 +22,7 @@ class Login extends React.Component {
     event.preventDefault();
 
     const { email, password } = this.state;
+    const { updateUser } = this.props;
 
     const credentials = {
       email,
@@ -42,13 +43,15 @@ class Login extends React.Component {
             throw new Error(errors);
           }
 
-          window.localStorage.auth_token = result.token;
-          
-          console.log(result);
-          
-
-          this.setState({
+          window.localStorage.setItem('auth_token', result.token);
+          window.localStorage.setItem('user', JSON.stringify({
+            ...result.user,
             isLoggedIn: true
+          }));
+
+          updateUser({
+            isLoggedIn: true,
+            ...result.user
           });
         } catch (error) {
           this.setState({
@@ -60,7 +63,8 @@ class Login extends React.Component {
   };
 
   render() {
-    const { email, password, isLoggedIn, error } = this.state;
+    const { email, password, error } = this.state;
+    const { isLoggedIn } = this.props;
 
     if (isLoggedIn) {
       return <Redirect to="/" />;
@@ -100,4 +104,14 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const LoginWithContext = props => {
+  return (
+    <UserConsumer>
+      {({ isLoggedIn, updateUser }) => (
+        <Login {...props} isLoggedIn={isLoggedIn} updateUser={updateUser} />
+      )}
+    </UserConsumer>
+  );
+};
+
+export default LoginWithContext;

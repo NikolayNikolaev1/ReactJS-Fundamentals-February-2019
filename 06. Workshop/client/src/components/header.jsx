@@ -1,7 +1,8 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
+import { UserConsumer } from "../components/contexts/user-context";
 
-const Header = () => {
+const Header = ({ isLoggedIn, username }) => {
   return (
     <header>
       <nav className="navbar-menu">
@@ -20,12 +21,29 @@ const Header = () => {
         <NavLink to="/cart" activeClassName="active">
           Cart
         </NavLink>
-        <NavLink to="/logout" activeClassName="active">
-          Logout
-        </NavLink>
+        {isLoggedIn ? (
+          <NavLink to="/logout" activeClassName="active">
+            Logout
+          </NavLink>
+        ) : (
+          <NavLink to="/login" activeClassName="active">
+            Login
+          </NavLink>
+        )}
+        {isLoggedIn ? <span>Hello, {username}</span> : null}
       </nav>
     </header>
   );
 };
 
-export default Header;
+const HeaderWithContext = props => {
+  return (
+    <UserConsumer>
+      {({ isLoggedIn, username }) => (
+        <Header {...props} isLoggedIn={isLoggedIn} username={username} />
+      )}
+    </UserConsumer>
+  );
+};
+
+export default HeaderWithContext;
